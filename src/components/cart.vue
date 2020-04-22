@@ -172,7 +172,7 @@
 										<button class="btn btn-white btn-md mb-2"><i class="fas fa-trash"></i></button>
 									</div>
 								</td>
-							</tr>
+							</tr> 
 							<tr>
 								<td data-th="Product">
 									<div class="row">
