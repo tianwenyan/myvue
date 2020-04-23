@@ -28,6 +28,17 @@
 					</td>
 				</tr>
 
+				
+
+				<tr>
+					<td>
+						手机号：
+					</td>
+					<td>
+						<input type="text" v-model="phone" placeholder="请输入手机号">
+					</td>
+				</tr>
+
 				<tr>
 					<td></td>
 					<td><Button color="green" @click="submit">提交</Button></td>
@@ -54,6 +65,7 @@
 import myheader from './myheader'
 import myfooter from './myfooter'
 
+
 export default {
   data () {
     return {
@@ -61,6 +73,8 @@ export default {
 	  //表单数据
 	  username:'',
 	  password:'',
+	  phone:'',
+	 
 	  datas:[{title:'首页',route:{name:'index'}},{title:'注册页面'}]
     }
   },
@@ -88,6 +102,7 @@ export default {
 			  return false
 		  }
 
+		  
 		  //请求后台接口 
 		  this.axios.get('http://localhost:8000/register/',
 		  	{params:{username:this.username,password:this.password}}
@@ -101,7 +116,7 @@ export default {
 	  }
 
      
-  }
+  } 
 }
 
 
