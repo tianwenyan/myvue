@@ -7,6 +7,7 @@ import detail from '@/components/detail'
 import mytest from '@/components/mytest'
 import test from '@/components/test'
 import register from '@/components/register'
+import login from '@/components/login'
 
 Vue.use(Router)
 
@@ -41,13 +42,13 @@ var routes = [
           name:'test',
           component:test
         },
+        
         {
-          path:'/register',
-          name:'register',
-          component:register
+          path:'/login',
+          name:'login',
+          component:login
         },
 ]
-
 export default new Router({
   routes:routes,
   mode:'history'   /*hash*/

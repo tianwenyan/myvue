@@ -125,6 +125,25 @@
 					</ul>
 				</div>
 			</div>
+
+			<div v-if="username==''">
+
+				<router-link to="/login">登陆</router-link>
+				/
+				<router-link to="/register"></router-link>
+
+			</div>
+
+			<div v-else>
+				欢迎您:{{ username }}
+
+				&nbsp;&nbsp;
+
+				<Button color="black">登 出</Button>
+
+			</div>
+ 
+
 		</nav>
 	</section>
 </div>
@@ -133,6 +152,25 @@
 
 <script>
 export default {
+	data(){
+		return {
+			//用户名
+			username:''
+		}
+	},
+	mounted:function(){
+		var uname = localStorage.getItem('username')
+
+		if(uname == ''){
+
+			this.username = '';
+		}else{
+			this.username = uname
+		}
+	},
+	methods:function(){
+
+	}
     
 }
 </script>
