@@ -128,18 +128,22 @@
 
 			<div v-if="username==''">
 
-				<router-link to="/login">登陆</router-link>
+				<router-link to='/login' >登 录</router-link>
+
 				/
-				<router-link to="/register"></router-link>
+
+				<router-link to='/register' >注 册</router-link>
+				
 
 			</div>
 
 			<div v-else>
+				
 				欢迎您:{{ username }}
 
 				&nbsp;&nbsp;
 
-				<Button color="black">登 出</Button>
+				<Button color="black" @click="logout">登 出</Button>
 
 			</div>
  
@@ -158,17 +162,43 @@ export default {
 			username:''
 		}
 	},
-	mounted:function(){
-		var uname = localStorage.getItem('username')
+	//钩子方法  created
+		mounted:function(){
 
-		if(uname == ''){
 
+			//判断是否登录
+			var uname = localStorage.getItem("username");
+
+			if(uname==null){
+
+				//没登录
+				this.username = '';
+
+			}else{
+
+				//登录
+				this.username = uname;
+
+			}
+
+
+
+		},
+	methods:{
+
+		//登出
+  		logout:function(){
+
+
+			//删除对应的localstorage  .clear()可以全部删除
+			localStorage.removeItem("username");
+
+			//跳转
 			this.username = '';
-		}else{
-			this.username = uname
-		}
-	},
-	methods:function(){
+			this.$router.push('/login');
+
+
+  	}
 
 	}
     

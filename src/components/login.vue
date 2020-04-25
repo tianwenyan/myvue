@@ -40,9 +40,29 @@
 				</tr>
 
 				<tr>
+					<td>
+						验证码：
+					</td>
+
+					<td>
+						<input type="text" v-model="code" placeholder="请输入验证码">
+					</td>
+				</tr>
+
+				<tr>
+					<td></td>
+					<td>
+						<img id='mycode' :src='src' @click="changeimg">
+					</td>
+
+				</tr>
+
+				<tr>
 					<td></td>
 					<td><Button color="green" @click="submit">提交</Button></td>
 				</tr>
+
+				
 			</table>			
 			
 	
@@ -74,6 +94,8 @@ export default {
 	  username:'',
 	  password:'',
 	  phone:'',
+	  code:'',
+	  src:'http://localhost:8000/mycode/',
 	 
 	  datas:[{title:'首页',route:{name:'index'}},{title:'登陆页面'}]
     }
@@ -88,6 +110,13 @@ export default {
   
 },
   methods:{
+	  //刷新验证码
+	changeimg:function(){
+		// 随机字符串
+		var num = Math.ceil(Math.random()*100)
+		// 赋值地址
+		this.src = this.src + '?code=' +num;
+	},
 
 	  //定义提交事件
 	  submit:function(){
