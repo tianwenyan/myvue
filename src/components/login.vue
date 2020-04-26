@@ -52,7 +52,7 @@
 				<tr>
 					<td></td>
 					<td>
-						<img id='mycode' :src='src' @click="changeimg">
+						<img class="imgcode" alt='点击刷新' id='mycode' :src='src' @click="changeimg">
 					</td>
 
 				</tr>
@@ -134,20 +134,26 @@ export default {
 		  
 		  //请求后台接口 
 		  this.axios.get('http://localhost:8000/login/',
-		  	{params:{username:this.username,password:this.password}}
+		  	{params:{username:this.username,password:this.password,code:this.code}}
 
 		  ).then((result)=>{
 
 			  console.log(result);
 
-			  localStorage.setItem('username',result.data.username)
-			  localStorage.setItem('uid',result.data.uid)
+			  if(result.data.code==200){
+				  localStorage.setItem('username',result.data.username)
+				  localStorage.setItem('uid',result.data.uid)
+				  this.$Message(result.data.message);
+				  //跳转页面
+				  this.$router.push('/')
 
-			  this.$Message(result.data.message);
 
-			  //跳转页面
-			  this.$router.push('/')
+			  }else{
 
+				  this.$Notice(result.data.message);
+			  }
+
+			  
 		  })
 	  }
 
@@ -160,8 +166,12 @@ export default {
  
 <style>
 
+
 td {
 	padding: 10px;
+}
+.imgcode {
+	cursor: pointer;
 }
 
 </style>
