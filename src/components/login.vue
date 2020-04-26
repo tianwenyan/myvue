@@ -59,6 +59,22 @@
 
 				<tr>
 					<td></td>
+					<td>
+						<!-- 滑块验证码 -->
+
+						<drag-verify
+						:width = 'width'
+						:height='height'
+						:text='text'
+						ref="Verify"
+
+						></drag-verify>
+					</td>
+				</tr>
+
+
+				<tr>
+					<td></td>
 					<td><Button color="green" @click="submit">提交</Button></td>
 				</tr>
 
@@ -84,12 +100,18 @@
 <script>
 import myheader from './myheader'
 import myfooter from './myfooter'
+// 导入滑块验证码
+import dragVerify from 'vue-drag-verify';
 
 
 export default {
   data () {
     return {
 	  msg: "这是一个变量",
+	  //声明滑块验证码相关数据
+	  width:320,
+	  height:42,
+	  text:'请将滑块拖动到右边',
 	  //表单数据
 	  username:'',
 	  password:'',
@@ -102,7 +124,8 @@ export default {
   },
   components:{
 	  'myheader':myheader,
-	  'myfooter':myfooter
+	  'myfooter':myfooter,
+	  'dragVerify':dragVerify
   },
   mounted:function(){
 
@@ -120,6 +143,14 @@ export default {
 
 	  //定义提交事件
 	  submit:function(){
+
+		  //判断是否拖动
+		  console.log(this.$refs.Verify.isPassing);
+		  if(this.$refs.Verify.isPassing == false){
+			  this.$Message('请拖动滑块')
+			  return false
+			  
+		  }
 		  //非空验证
 		  if(this.username == ''){
 			  this.$Message('您没有输入用户名')
