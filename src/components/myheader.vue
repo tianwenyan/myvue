@@ -165,6 +165,16 @@ export default {
 	//钩子方法  created
 		mounted:function(){
 
+			//接收三方参数
+			var sina_id = this.$route.query.sina_id;
+			var user_id = this.$route.query.uid;
+
+			if(sina_id){
+				//自动帮助用户进行登录操作
+				localStorage.setItem('username',sina_id);
+				localStorage.setItem('uid',user_id);
+			}
+
 
 			//判断是否登录
 			var uname = localStorage.getItem("username");

@@ -75,7 +75,14 @@
 
 				<tr>
 					<td></td>
-					<td><Button color="green" @click="submit">提交</Button></td>
+					<td><Button color="green" @click="submit">登录</Button>
+
+						&emsp;&emsp;
+						<img class="imgcode" src="http://localhost:8000/static/sina.png" @click="sina">
+
+					
+					</td>
+
 				</tr>
 
 				
@@ -133,13 +140,27 @@ export default {
   
 },
   methods:{
+	  //新浪微博三方登录
+  	sina:function(){
+
+
+  		//拼接url
+  		let clinet_id = 3827484432;
+
+  		let url = "https://api.weibo.com/oauth2/authorize?client_id=3827484432&redirect_uri=http://127.0.0.1:8000/md_admin/weibo";
+
+  		//跳转
+  		window.location.href = url;
+
+
+  	},
 	  //刷新验证码
-	changeimg:function(){
-		// 随机字符串
-		var num = Math.ceil(Math.random()*100)
-		// 赋值地址
-		this.src = this.src + '?code=' +num;
-	},
+		changeimg:function(){
+			// 随机字符串
+			var num = Math.ceil(Math.random()*100)
+			// 赋值地址
+			this.src = this.src + '?code=' +num;
+		},
 
 	  //定义提交事件
 	  submit:function(){
