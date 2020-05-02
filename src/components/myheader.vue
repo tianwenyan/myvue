@@ -139,7 +139,7 @@
 
 			<div v-else>
 				
-				欢迎您:{{ username }}
+				欢迎您:<a href="/myprofile">{{ username }}</a>
 
 				&nbsp;&nbsp;
 

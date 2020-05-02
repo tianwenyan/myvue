@@ -10,6 +10,7 @@ import register from '@/components/register'
 import login from '@/components/login'
 import login1 from '@/components/login1'
 import register1 from '@/components/register1'
+import myprofile from '@/components/myprofile'
 
 Vue.use(Router)
 
@@ -64,6 +65,11 @@ var routes = [
           path:'/register',
           name:'register',
           component:register
+        },
+        {
+          path:'/myprofile',
+          name:'myprofile',
+          component:myprofile
         },
 ]
 export default new Router({
