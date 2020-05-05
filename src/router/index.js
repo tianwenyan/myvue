@@ -69,7 +69,18 @@ var routes = [
         {
           path:'/myprofile',
           name:'myprofile',
-          component:myprofile
+          component:myprofile,
+          beforeEnter:(to,from,next) =>{
+
+            if(localStorage.getItem('username')){
+
+              console.log('已经登陆');
+              next();
+            }else{
+              console.log('没有登陆');
+              next('./login')
+            }
+          }
         },
 ]
 export default new Router({

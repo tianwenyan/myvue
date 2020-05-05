@@ -79,6 +79,7 @@
 
 						&emsp;&emsp;
 						<img class="imgcode" src="http://localhost:8000/static/sina.png" @click="sina">
+						<img class="imgcode" src="http://localhost:8000/static/dingding.png" @click="dingding" />
 
 					
 					</td>
@@ -140,6 +141,16 @@ export default {
   
 },
   methods:{
+	  //钉钉登录
+  	dingding:function(){
+
+  			let appid = 'dingoaukgkwqknzjvamdqh';
+    		let redirect_uri = 'http://localhost:8000/dingding_back/';
+
+  			//进行跳转
+  			window.location.href = 'https://oapi.dingtalk.com/connect/qrconnect?appid='+appid+'&response_type=code&scope=snsapi_login&state=STATE&redirect_uri='+redirect_uri;
+
+  	},
 	  //新浪微博三方登录
   	sina:function(){
 
