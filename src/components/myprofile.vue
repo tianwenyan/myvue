@@ -140,7 +140,7 @@ export default {
   methods:{
 	  get_userinfo:function(){
 
-		  this.axios.get('http://localhost:8000/userinfo/',{params:{'uid':localStorage.getItem('uid')}}
+		  this.axios.get('http://localhost:8000/userinfo/',{params:{uid:localStorage.getItem('uid'),jwt:localStorage.getItem('jwt')}}
 		  ).then((result)=>{
 			  console.log(result)
 
