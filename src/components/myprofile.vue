@@ -26,10 +26,30 @@
 				</tr>
 				<tr>
 					<td>
+						
+					</td>
+					<td>
+						<video id='video' v-show="videosrc" width='300' height='200' :src="videosrc" controls="controls" autoplay="autoplay" muted></video>
+						<br>
+						<Button @click="changepic" color="red">{{ mybutton }}</Button>
+						&nbsp;&nbsp;
+						<Button @click='quanpin' color='red'>{{mybutton1}}</Button>
+		
+						<br>
+					</td>
+				</tr>
+				<tr>
+					<td>
 						七牛云上传：
 					</td>
 					<td>
 						<input type="file" @change="upload_qiniu">
+						<!-- {{ load_percent }} -->
+						<br>
+						<br>
+						<!-- 进度条标签 -->
+						<Progress v-show="load_int" :percent='load_int' color='green'></Progress>
+						<span v-show="load_int" slot="text">{{ load_int }}%</span>
 
 					</td>
 				</tr>
@@ -46,20 +66,7 @@
 
 					</td>
 				</tr>
-				<tr>
-					<td>
-						
-					</td>
-					<td>
-						<video id='video' v-show="videosrc" width='300' height='200' :src="videosrc" controls="controls" autoplay="autoplay" muted></video>
-						<br>
-						<Button @click="changepic" color="red">{{ mybutton }}</Button>
-						&nbsp;&nbsp;
-						<Button @click='quanpin' color='red'>{{mybutton1}}</Button>
-		
-						<br>
-					</td>
-				</tr>
+				
 				
 				
 
@@ -93,7 +100,11 @@ export default {
   data () {
     return {
 	  msg: "这是一个变量",
-	//   七牛云
+	  //整形进度
+	  load_int:0,
+	  //进度条展示
+	//   load_percent:'',
+	  //七牛云
 	  token:'',
 	  src:'',
 	  //视频播放地址
@@ -121,9 +132,24 @@ export default {
 		upload.addEventListener('dragover',this.onDrag,false);
 		upload.addEventListener('drop',this.onDrop,false);
 
+		//调用用户信息
+		this.get_userinfo();
+
 
 },
   methods:{
+	  get_userinfo:function(){
+
+		  this.axios.get('http://localhost:8000/userinfo/',{params:{'uid':localStorage.getItem('uid')}}
+		  ).then((result)=>{
+			  console.log(result)
+
+			  this.src = 'http://localhost:8000/static/upload/'+result.data.img;
+
+		  })
+
+	  },
+
 	  //监听用户鼠标
   	onDrag(e){
 
@@ -238,8 +264,25 @@ export default {
   			method:'POST',
   			url:'http://up-z1.qiniup.com/',
   			data:param,
-  			timeout:30000
+			timeout:30000,
+			onUploadProgress:(e)=>{
+
+				//计算百分比
+				var complete = (e.loaded / e.total)
+
+				//处理美化
+				if(complete < 1){
+					// this.load_percent = (complete *100).toFixed(2) + '%';
+					this.load_int = parseInt((complete *100).toFixed(2))
+
+				}
+				
+			}  
   		}).then(result =>{
+
+			//安慰剂按钮
+			// this.load_percent = '100%';
+			this.load_int = 100;
 
   			console.log(result);
   			this.src = "http://q9uh9g7l7.bkt.clouddn.com/"+result.data.key;
