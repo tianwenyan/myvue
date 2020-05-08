@@ -2,12 +2,12 @@
 <div>
     <section class="header text-center">
 		<nav class="navbar navbar-expand-lg navbar-light navbar-custom">
-			<div class="container"><a class="navbar-brand" href="index.html"><i class="fas fa-shopping-bag primary-color mr-1"></i>美多商城</a>
+			<div class="container"><a class="navbar-brand" href="/"><i class="fas fa-shopping-bag primary-color mr-1"></i>{{ $t('m.index') }}</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-1" aria-controls="navbar-1" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 				<div class="collapse navbar-collapse pull-xs-right justify-content-end" id="navbar-1">
 					<ul class="navbar-nav mt-2 mt-md-0">
-						<li class="nav-item active"><a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a></li>
-						<li class="nav-item dropdown mega-menu"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop </a>
+						<li class="nav-item active"><a class="nav-link" href="#">{{ $t('m.2')}} <span class="sr-only">(current)</span></a></li>
+						<li class="nav-item dropdown mega-menu"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $t('m.3')}} </a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 								<div class="container">
 									<div class="divider"></div>
@@ -139,14 +139,21 @@
 
 			<div v-else>
 				
-				欢迎您:<a href="/myprofile">{{ username }}</a>
+				{{ $t('m.1') }}:<a href="/myprofile">{{ username }}</a>
 
 				&nbsp;&nbsp;
 
-				<Button color="black" @click="logout">登 出</Button>
+				<Button color="black" @click="logout">{{ $t('m.logout') }}</Button>
 
 			</div>
+
+			<div>
+
+				<!-- 开关标签 -->
+				<h-switch @change="lang_change" v-model="lang">{{ $t('m.4') }}</h-switch>
+			</div>
  
+
 
 		</nav>
 	</section>
@@ -159,11 +166,30 @@ export default {
 	data(){
 		return {
 			//用户名
-			username:''
+			username:'',
+			// 开关变量
+			lang:'1',
 		}
 	},
 	//钩子方法  created
 		mounted:function(){
+
+			var lang_locale = localStorage.getItem('lang');
+
+			if(lang_locale){
+				this.$i18n.locale = lang_locale;
+				if(lang_locale == 'zh'){
+
+					this.lang = 0;
+
+				}else{
+					this.lang = 1;
+				}
+			}else{
+				this.$i18n.locale = 'zh';
+			}
+
+			this.$i18n.locale = 'zh';
 
 			//接收三方参数
 			var sina_id = this.$route.query.sina_id;
@@ -195,6 +221,24 @@ export default {
 
 		},
 	methods:{
+		//切换语言
+		lang_change:function(){
+
+
+			console.log(this.lang);
+			if(this.lang == true){
+
+				//中文
+				this.$i18n.locale = 'en';
+				localStorage.setItem('lang','en')
+
+			}else{
+				this.$i18n.locale = 'zh'
+				localStorage.setItem('lang','zh')
+			}
+
+
+		},
 
 		//登出
   		logout:function(){
