@@ -1,7 +1,7 @@
 <template>
 <div>
     <section class="header text-center">
-		<nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+		<nav class="navbar navbar-expand-lg navbar-custom">
 			<div class="container"><a class="navbar-brand" href="/"><i class="fas fa-shopping-bag primary-color mr-1"></i>{{ $t('m.index') }}</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-1" aria-controls="navbar-1" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 				<div class="collapse navbar-collapse pull-xs-right justify-content-end" id="navbar-1">
@@ -152,6 +152,12 @@
 				<!-- 开关标签 -->
 				<h-switch @change="lang_change" v-model="lang">{{ $t('m.4') }}</h-switch>
 			</div>
+
+			<div>
+
+				<!-- 开关标签 -->
+				<h-switch @change="change_back" v-model="light">暗夜/白天</h-switch>
+			</div>
  
 
 
@@ -169,27 +175,19 @@ export default {
 			username:'',
 			// 开关变量
 			lang:'1',
+			//暗黑变量
+			light:true,
 		}
 	},
 	//钩子方法  created
 		mounted:function(){
 
-			var lang_locale = localStorage.getItem('lang');
+			this.change_back();
 
-			if(lang_locale){
-				this.$i18n.locale = lang_locale;
-				if(lang_locale == 'zh'){
+			this.iflange();
 
-					this.lang = 0;
-
-				}else{
-					this.lang = 1;
-				}
-			}else{
-				this.$i18n.locale = 'zh';
-			}
-
-			this.$i18n.locale = 'zh';
+			
+			// this.$i18n.locale = 'zh';
 
 			//接收三方参数
 			var sina_id = this.$route.query.sina_id;
@@ -221,6 +219,53 @@ export default {
 
 		},
 	methods:{
+
+		//切换主题颜色
+		change_back:function(){
+
+			//获取样式表
+			var styles = getComputedStyle(document.documentElement);
+
+			if(this.light == true){
+
+				document.documentElement.style.setProperty('--bg-color','#fff');
+				document.documentElement.style.setProperty('--a-color','black');
+				
+
+				
+			}else{
+
+				//动态更改
+				document.documentElement.style.setProperty('--bg-color','#292a2d');
+				document.documentElement.style.setProperty('--a-color','white');
+				
+
+				
+				
+			}
+			
+		},
+
+
+		//判断语言
+		iflange:function(){
+			var lang_locale = localStorage.getItem('lang');
+
+			if(lang_locale){
+				this.$i18n.locale = lang_locale;
+				if(lang_locale == 'zh'){
+
+					this.lang = 0;
+
+				}else{
+					this.lang = 1;
+				}
+			}else{
+				this.$i18n.locale = 'zh';
+				this.lang = 0;
+			}
+
+		},
 		//切换语言
 		lang_change:function(){
 
@@ -246,6 +291,9 @@ export default {
 
 			//删除对应的localstorage  .clear()可以全部删除
 			localStorage.removeItem("username");
+			localStorage.removeItem("uid");
+			localStorage.removeItem("jwt");
+			localStorage.removeItem("filename");
 
 			//跳转
 			this.username = '';

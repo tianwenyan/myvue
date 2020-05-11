@@ -226,10 +226,15 @@ input {
 
 .navbar-custom {
   background: transparent; }
+  :root{
+    --bg-color:#fff;
+    --a-color:#0e0d0d;
+    
+  }
 
 a.navbar-brand, a.logo {
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #444342 !important;
+  color: var(--a-color) !important;
   font-size: 2rem;
   font-weight: bold;
   margin-top: 0; }
@@ -245,8 +250,10 @@ li.nav-item .btn-white {
 li.nav-item .active {
   font-weight: bold; }
 
+
+
 .header {
-  background: #fff;
+  background:var(--bg-color);
   min-height: 7em;
   height: auto;
   border-radius: 0;
