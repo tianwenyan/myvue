@@ -11,6 +11,7 @@ import login from '@/components/login'
 import login1 from '@/components/login1'
 import register1 from '@/components/register1'
 import myprofile from '@/components/myprofile'
+import addgoods from '@/components/addgoods'
 
 Vue.use(Router)
 
@@ -80,7 +81,14 @@ var routes = [
               console.log('没有登陆');
               next('./login')
             }
-          }
+          },
+          
+        },
+        
+        {
+          path:'/addgoods',
+          name:'addgoods',
+          component:addgoods
         },
 ]
 export default new Router({
