@@ -120,6 +120,8 @@ export default {
 	  selected:'衣服',
 	  //商品分类
 	  category:[],
+	  //商品id和name
+	  goods_dict:{},
 	  name:'',
 	  price:0,
 	  color:'',
@@ -157,6 +159,10 @@ export default {
 
 					mycate.push(result.data[i]['name']);
 
+					//反相赋值
+					this.goods_dict[result.data[i]['name']] = result.data[i]['id'];
+
+
 				}
 
 				//赋值操作
@@ -167,8 +173,10 @@ export default {
 
 	  //添加商品逻辑
 	  submit:function(){
-		  console.log(this.selected);
-		  return false;
+		console.log(this.selected);
+
+		console.log(this.goods_dict[this.selected]);
+		
 		//   将普通字段转换为json
 		var param = {};
 
@@ -182,7 +190,7 @@ export default {
 		param = JSON.stringify(param);
 		console.log(param);
 
-		this.axios.get('http://localhost:8000/insertgoods/',{params:{name:this.name,price:this.price,params:param}}
+		this.axios.get('http://localhost:8000/insertgoods/',{params:{name:this.name,price:this.price,params:param,cid:this.goods_dict[this.selected]}}
 		).then((result)=>{
 
 			console.log(result);
