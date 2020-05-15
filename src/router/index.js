@@ -12,6 +12,7 @@ import login1 from '@/components/login1'
 import register1 from '@/components/register1'
 import myprofile from '@/components/myprofile'
 import addgoods from '@/components/addgoods'
+import search from '@/components/search'
 
 Vue.use(Router)
 
@@ -89,6 +90,11 @@ var routes = [
           path:'/addgoods',
           name:'addgoods',
           component:addgoods
+        },
+        {
+          path:'/search',
+          name:'search',
+          component:search
         },
 ]
 export default new Router({

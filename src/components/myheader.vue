@@ -85,13 +85,23 @@
 							</div>
 						</li>
 						<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-					<li class="nav-item dropdown"><input type="text" /></li>
+					<li class="nav-item dropdown">
+
+						<!--  -->
+						<Search @search='search' v-model="text"></Search>
+
+
+						
+
+
+
 						<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-shopping-cart"></i> <span class="badge badge-pill badge-primary">3</span></a>
 							<div class="dropdown-menu dropdown-menu-right dropdown-cart" aria-labelledby="navbarDropdown">
 								<h6>3 Items <span class="emphasis">$147.00</span></h6>
 								<div class="dropdown-divider"></div>
 								<ul class="shopping-cart-items">
 									<li class="row">
+
 										<div class="col-3">
 											<img src="images/placeholder-product.jpg" width="60">
 										</div>
@@ -173,10 +183,18 @@ export default {
 		return {
 			//用户名
 			username:'',
+			text:'',
 			// 开关变量
 			lang:'1',
 			//暗黑变量
 			light:true,
+		}
+	},
+	//监听属性,检测页面变化、
+	watch:{
+		$route(to,from){
+			//手动刷新
+			this.$router.go(0);
 		}
 	},
 	//钩子方法  created
@@ -219,6 +237,14 @@ export default {
 
 		},
 	methods:{
+
+		//检索方法
+		search:function(){
+			//获取输入关键词
+			console.log(this.text);
+			//进行跳转
+			this.$router.push({path:'/search',query:{text:this.text}});
+		},
 
 		//切换主题颜色
 		change_back:function(){

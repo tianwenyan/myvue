@@ -136,6 +136,10 @@
 					<Button v-show="nextpage"  @click="get_goods_self(nextpage)">下一页</Button>
 					&emsp;&emsp;
 					<a @click="get_goods_self(allpage)">尾页</a>
+					&emsp;&emsp;
+					<input @input="jump_page($event)" style="width:50px" type="text">
+					
+					
 
 
 				</div>
@@ -233,6 +237,19 @@ export default {
   
 },
   methods:{
+
+	  //页面跳转
+	  jump_page:function(e){
+		  var val = e.target.value;
+		  if(val >this.allpage){
+			  this.$Message('您输入的页码有错');
+			  return false
+		  }
+		  this.get_goods_self(eval)
+
+		  console.log(val)
+
+	  },
 
 	  //获取商品
 	  get_goods:function(){
