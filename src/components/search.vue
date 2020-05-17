@@ -130,7 +130,7 @@ filters:{
 		console.log(window.that.text);
 	
 
-		value = value.replace(new RegExp(window.that.text,'g'),'<span class="highlight">'+window.that.text+'</span>');
+		// value = value.replace(new RegExp(window.that.text,'g'),'<span class="highlight">'+window.that.text+'</span>');
 		
 		return value;
 
@@ -148,7 +148,7 @@ filters:{
 	  get_goods:function(){
 
 		  //发送请求
-		  this.axios.get('http://localhost:8000/goodslist/',{params:{page:this.pagination.page,size:this.pagination.size,text:this.text}}
+		  this.axios.get('http://localhost:8000/search/',{params:{page:this.pagination.page,size:this.pagination.size,text:this.text}}
 
 		  ).then((result)=>{
 
@@ -174,6 +174,7 @@ filters:{
 	  },
 
 	 
+
 
 
 	  

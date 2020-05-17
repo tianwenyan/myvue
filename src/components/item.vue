@@ -46,7 +46,21 @@
 					<!--Quantity: <input type="text" class="form-control quantity mb-4" name="" value="1">-->
 					
 					<a href="#" class="btn btn-full-width btn-lg btn-outline-primary">Add to cart</a></div>
+
+					
 			</div>
+			<br /><br />
+
+					<!-- 商品评论 -->
+
+					<textarea v-model="comment" rows="10" v-autosize v-wordcount="100">
+						
+
+					</textarea>
+
+					<br /><br />
+
+					<Button @click="submit" color="blue">提交评论</Button>
 		</div>
 	</section>
 	
@@ -139,6 +153,8 @@ export default {
 	  info:{},
 	  //商品规格
 	  param:{},
+	  //评论内容
+	  comment:'',
 
     }
   },
@@ -161,6 +177,35 @@ export default {
   
 },
   methods:{
+	  //提交评论
+  	submit:function(){
+
+  		if(this.comment==''){
+
+  			this.$Message("评论不能为空");
+  			return false;
+  		}
+
+  		this.comment = this.comment.replace(/ /g,'');
+
+  		if(this.comment.length > 100){
+
+  			this.$Message("超出了长度限制");
+  			return false;
+  		}
+
+  		//请求入库
+  		//发送请求
+      this.axios.post('http://localhost:8000/commentinsert/',this.qs.stringify({uid:localStorage.getItem("uid"),gid:this.id,content:this.comment})).then((result) =>{
+
+        console.log(result);
+
+        this.$Message(result.data.message);
+
+      });
+
+
+  	},
 
 	  //更换大图
   	changeimg:function(img){
