@@ -53,7 +53,7 @@
 
 					<!-- 商品评论 -->
 
-					<textarea v-model="comment" rows="10" v-autosize v-wordcount="100">
+					<textarea v-model="comment" rows="10">
 						
 
 					</textarea>
@@ -196,7 +196,7 @@ export default {
 
   		//请求入库
   		//发送请求
-      this.axios.post('http://localhost:8000/commentinsert/',this.qs.stringify({uid:localStorage.getItem("uid"),gid:this.id,content:this.comment})).then((result) =>{
+      this.axios.post('http://localhost:8000/commentinsert/',this.qs.stringify({uid:localStorage.getItem("uid"),gid:this.id,comment:this.comment})).then((result) =>{
 
         console.log(result);
 
