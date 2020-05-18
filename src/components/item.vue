@@ -53,6 +53,18 @@
 
 					<!-- 商品评论 -->
 
+					<!-- <textarea rows="10" v-autosize v-wordcount="100" v-model="comment">
+					</textarea>
+
+					<br>
+					<Button color="blue" @click="mongo_post">提交评论</Button> -->
+					<!-- mongo评论 -->
+					<!-- <ul>
+						<li v-for="mongo in mongo_list">
+							{{mongo.username}}:{{mongo.content}}
+						</li>
+					</ul> -->
+
 					<textarea v-model="comment" rows="10" v-autosize v-wordcount="100">
 						
 
@@ -153,6 +165,7 @@ export default {
   data () {
     return {
 	  msg: "这是一个变量",
+	  mongo_list:[],
 	  id:'',
 	  //图片地址
 	  mysrc:'',
@@ -164,6 +177,10 @@ export default {
 	  comment:'',
 	  //评论列表
 	  commentlist:[],
+	  //商品id
+	//   id:this.$route.query.id,
+	  uid:localStorage.getItem('uid'),
+	  username:localStorage.getItem('username'),
 
     }
   },
@@ -183,6 +200,8 @@ export default {
 	  this.get_good();
 	  //获取商品评论
 	  this.get_comments();
+
+	  this.get_mogno();
 
    
   
@@ -230,7 +249,49 @@ export default {
       });
 
 
-  	},
+	  },
+
+	  //获取商品评论
+	  get_mogno(){
+		this.axios({
+			url:'http://localhost:8000/mongo/',
+			method:'GET',
+		}).then(resp=>{
+			this.mongo_list = resp.data.data
+			console.log(66666666,this.mongo_list)
+			
+		})
+	  },
+	  
+	  //使用mongo进行评论
+	  mongo_post(){
+		if(this.comment==""){
+			this.$Message('不能空评论');
+			return false;
+		}
+		if(this.username==""){
+			this.$Message('没有登录，不能进行评论')
+			return false;
+		}
+		this.comment = this.comment.replace(/ /g,'');
+		if(this.comment.length>100){
+			this.$Message('超出长度限制');
+			return false;
+		}
+		this.axios({
+			url:'http://localhost:8000/mongo/',
+			method:'POST',
+			data:{
+				username:this.username,
+				content:this.comment,
+			}
+		}).then(resp=>{
+			console.log(111,resp)
+			this.$Message(resp.data.message)
+			this.mongo_list.unshift({'username':this.username,'content':this.comment})
+
+		})
+	  },
 
 	  //更换大图
   	changeimg:function(img){
