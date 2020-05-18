@@ -53,7 +53,7 @@
 
 					<!-- 商品评论 -->
 
-					<textarea v-model="comment" rows="10">
+					<textarea v-model="comment" rows="10" v-autosize v-wordcount="100">
 						
 
 					</textarea>
@@ -61,6 +61,13 @@
 					<br /><br />
 
 					<Button @click="submit" color="blue">提交评论</Button>
+
+					<!-- 评论列表 -->
+					<ul>
+						<li v-for='item in commentlist'>
+							{{item.uid}}:{{item.content}}
+						</li>
+					</ul>
 		</div>
 	</section>
 	
@@ -155,6 +162,8 @@ export default {
 	  param:{},
 	  //评论内容
 	  comment:'',
+	  //评论列表
+	  commentlist:[],
 
     }
   },
@@ -172,11 +181,24 @@ export default {
 	  console.log(this.id)
 
 	  this.get_good();
+	  //获取商品评论
+	  this.get_comments();
 
    
   
 },
   methods:{
+	  //获取商品评论
+	  get_comments:function(){
+		  //发送请求
+		  this.axios.get('http://localhost:8000/commentlist/',{params:{gid:this.id}}
+		  ).then((result)=>{
+
+			  console.log(result);
+			  this.commentlist = result.data;
+
+		  })
+	  },
 	  //提交评论
   	submit:function(){
 
@@ -196,11 +218,14 @@ export default {
 
   		//请求入库
   		//发送请求
-      this.axios.post('http://localhost:8000/commentinsert/',this.qs.stringify({uid:localStorage.getItem("uid"),gid:this.id,comment:this.comment})).then((result) =>{
+      this.axios.post('http://localhost:8000/commentinsert/',this.qs.stringify({uid:localStorage.getItem("uid"),gid:this.id,content:this.comment})).then((result) =>{
 
         console.log(result);
 
-        this.$Message(result.data.message);
+		this.$Message(result.data.message);
+		
+		// 添加评论数据
+		this.commentlist.unshift({'uid':localStorage.getItem('uid'),'content':this.comment})
 
       });
 
