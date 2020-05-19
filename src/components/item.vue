@@ -77,7 +77,7 @@
 					<!-- 评论列表 -->
 					<ul>
 						<li v-for='item in commentlist'>
-							{{item.uid}}:{{item.content}}
+							{{ change_uid(item.uid) }}:{{item.content}}
 						</li>
 					</ul>
 		</div>
@@ -165,7 +165,7 @@ export default {
   data () {
     return {
 	  msg: "这是一个变量",
-	  mongo_list:[],
+	//   mongo_list:[],
 	  id:'',
 	  //图片地址
 	  mysrc:'',
@@ -177,10 +177,13 @@ export default {
 	  comment:'',
 	  //评论列表
 	  commentlist:[],
+	  //用户名列表
+	  users:{},
+
 	  //商品id
 	//   id:this.$route.query.id,
-	  uid:localStorage.getItem('uid'),
-	  username:localStorage.getItem('username'),
+	//   uid:localStorage.getItem('uid'),
+	//   username:localStorage.getItem('username'),
 
     }
   },
@@ -201,12 +204,42 @@ export default {
 	  //获取商品评论
 	  this.get_comments();
 
-	  this.get_mogno();
+	  //获取用户名列表
+	  this.get_users();
+
+	//   this.get_mogno();
 
    
   
 },
   methods:{
+
+	  //替换用户名
+	  change_uid:function(uid){
+		  return this.users[uid];
+	  },
+
+	//   获取用户名
+	get_users:function(){
+
+		//发送请求
+		  this.axios.get('http://localhost:8000/getusers/'
+		  ).then((result)=>{
+
+			  console.log(result);
+			  //遍历
+			  for(let i=0;i<result.data.length;i++){
+
+				  this.users[result.data[i]['id']] = result.data[i]['username'];
+			  }
+
+			  console.log(this.users);
+
+		  })
+
+	},
+
+
 	  //获取商品评论
 	  get_comments:function(){
 		  //发送请求
@@ -252,46 +285,46 @@ export default {
 	  },
 
 	  //获取商品评论
-	  get_mogno(){
-		this.axios({
-			url:'http://localhost:8000/mongo/',
-			method:'GET',
-		}).then(resp=>{
-			this.mongo_list = resp.data.data
-			console.log(66666666,this.mongo_list)
+	//   get_mogno(){
+	// 	this.axios({
+	// 		url:'http://localhost:8000/mongo/',
+	// 		method:'GET',
+	// 	}).then(resp=>{
+	// 		this.mongo_list = resp.data.data
+	// 		console.log(66666666,this.mongo_list)
 			
-		})
-	  },
+	// 	})
+	//   },
 	  
 	  //使用mongo进行评论
-	  mongo_post(){
-		if(this.comment==""){
-			this.$Message('不能空评论');
-			return false;
-		}
-		if(this.username==""){
-			this.$Message('没有登录，不能进行评论')
-			return false;
-		}
-		this.comment = this.comment.replace(/ /g,'');
-		if(this.comment.length>100){
-			this.$Message('超出长度限制');
-			return false;
-		}
-		this.axios({
-			url:'http://localhost:8000/mongo/',
-			method:'POST',
-			data:{
-				username:this.username,
-				content:this.comment,
-			}
-		}).then(resp=>{
-			console.log(111,resp)
-			this.$Message(resp.data.message)
-			this.mongo_list.unshift({'username':this.username,'content':this.comment})
+	//   mongo_post(){
+	// 	if(this.comment==""){
+	// 		this.$Message('不能空评论');
+	// 		return false;
+	// 	}
+	// 	if(this.username==""){
+	// 		this.$Message('没有登录，不能进行评论')
+	// 		return false;
+	// 	}
+	// 	this.comment = this.comment.replace(/ /g,'');
+	// 	if(this.comment.length>100){
+	// 		this.$Message('超出长度限制');
+	// 		return false;
+	// 	}
+	// 	this.axios({
+	// 		url:'http://localhost:8000/mongo/',
+	// 		method:'POST',
+	// 		data:{
+	// 			username:this.username,
+	// 			content:this.comment,
+	// 		}
+	// 	}).then(resp=>{
+	// 		console.log(111,resp)
+	// 		this.$Message(resp.data.message)
+	// 		this.mongo_list.unshift({'username':this.username,'content':this.comment})
 
-		})
-	  },
+	// 	})
+	//   },
 
 	  //更换大图
   	changeimg:function(img){
